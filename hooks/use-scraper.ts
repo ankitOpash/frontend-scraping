@@ -11,7 +11,7 @@ export function useScraper() {
    const logs = useWebSocketLogs(); // Subscribe to WebSocket logs
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "";
 
-  console.log(BACKEND_URL);
+  // console.log(BACKEND_URL);
   
   const scrape = async (values: any) => {
     console.log(values);
