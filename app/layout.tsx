@@ -6,8 +6,8 @@ import { Providers } from './providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'E-commerce Scraper',
-  description: 'A powerful web scraper for e-commerce websites',
+  title: 'Scraper',
+  description: 'Scraper',
 };
 
 export default function RootLayout({

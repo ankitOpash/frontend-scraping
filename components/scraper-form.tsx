@@ -39,6 +39,7 @@ export function ScraperForm() {
       pageCount: undefined,
     },
   });
+  // console.log(logs, "logs");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { hasPagination, pageCount, url } = values;
@@ -98,9 +99,14 @@ export function ScraperForm() {
                   <FormControl>
                     <Input
                       type="number"
+                      // name="pageCount"
                       min={1}
                       {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                      value={field.value} // Ensure a default value is always set
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        field.onChange(isNaN(value) ? 1 : value); // Default to 1 if NaN
+                      }}
                     />
                   </FormControl>
                   <FormDescription>
@@ -115,7 +121,7 @@ export function ScraperForm() {
           <div className="mt-4">
             <h3>Logs:</h3>
             <div className="border p-2 max-h-60 overflow-y-auto">
-              {logs.map((log, index) => (
+              {Array.from(new Set(logs)).map((log, index) => (
                 <div key={index}>{log}</div>
               ))}
             </div>

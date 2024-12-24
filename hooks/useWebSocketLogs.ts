@@ -12,23 +12,22 @@ export function useWebSocketLogs() {
       return;
     }
 
-    // console.log("Attempting WebSocket connection to:", wsUrl);
+    console.log("Attempting WebSocket connection to:", wsUrl);
 
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
     ws.onopen = () => {
-      // console.log("WebSocket connection established.");
+      console.log("WebSocket connection established.");
     };
 
     ws.onmessage = (event) => {
-      // console.log("Received WebSocket message:", event.data);
+      console.log("Received WebSocket message:", event.data);
       setLogs((prevLogs) => [...prevLogs, event.data]);
     };
 
     ws.onerror = (error) => {
-      // console.error("WebSocket encountered an error:", error);
-      // Attempt reconnect on error after a delay
+      console.error("WebSocket encountered an error:", error);
       attemptReconnect();
     };
 
@@ -45,7 +44,7 @@ export function useWebSocketLogs() {
     }
 
     setTimeout(() => {
-      // console.log("Reconnecting to WebSocket...");
+      console.log("Reconnecting to WebSocket...");
       connectWebSocket();
     }, 2000); // Wait 2 seconds before reconnect
   };

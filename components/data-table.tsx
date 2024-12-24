@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,29 +8,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Input } from '@/components/ui/input';
-import {
-  DownloadCloud,
-  Search,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { useScraper } from '@/hooks/use-scraper';
-import { Product } from '@/lib/api';
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { DownloadCloud, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useScraper } from "@/hooks/use-scraper";
+import { Product } from "@/lib/api";
 
 const ITEMS_PER_PAGE = 10;
 
 export function DataTable() {
   const { products } = useScraper();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
@@ -40,23 +36,23 @@ export function DataTable() {
     startIndex + ITEMS_PER_PAGE
   );
 
-  const downloadData = (format: 'json' | 'csv') => {
-    const data = format === 'json'
-      ? JSON.stringify(products, null, 2)
-      : [
-          'Name,Price,Description,Image URL,Product URL',
-          ...products.map(p => 
-            `"${p.name}","${p.price}","${p.description}","${p.imageUrl}","${p.url}"`
-          )
-        ].join('\n');
+  const downloadData = (format: "json" | "csv") => {
+    const data =
+      format === "json"
+        ? JSON.stringify(products, null, 2)
+        : [
+            "Name,Price,Description,Image URL,Product URL",
+            ...products.map(
+              (p) =>
+                `"${p.name}","${p.price}","${p.description}","${p.imageUrl}","${p.url}"`
+            ),
+          ].join("\n");
 
     const blob = new Blob([data], {
-      type: format === 'json'
-        ? 'application/json'
-        : 'text/csv'
+      type: format === "json" ? "application/json" : "text/csv",
     });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `scraped-data.${format}`;
     document.body.appendChild(a);
@@ -76,7 +72,7 @@ export function DataTable() {
     link.click();
     window.URL.revokeObjectURL(url);
   }
-
+  
 
   return (
     <Card className="p-6">
@@ -94,7 +90,7 @@ export function DataTable() {
           <div className="space-x-2">
             <Button
               variant="outline"
-              onClick={() => downloadData('json')}
+              onClick={() => downloadData("json")}
               disabled={products.length === 0}
             >
               <DownloadCloud className="mr-2 h-4 w-4" />
@@ -155,7 +151,7 @@ export function DataTable() {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -166,7 +162,7 @@ export function DataTable() {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
               <ChevronRight className="h-4 w-4" />
